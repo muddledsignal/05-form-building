@@ -74,12 +74,12 @@ articleView.setTeasers = () => {
   });
 };
 
-// COMMENT: Where is this function called? Why?
-// PUT YOUR RESPONSE HERE
+// DONE: Where is this function called? Why?
+// This function is called in the new.html page so that it will update the "export" form and the user can copy and paste the JSON code into blogArticles.js
 articleView.initNewArticlePage = () => {
   // OPTIONAL: Ensure the main .tab-content area is revealed. We might add more tabs later or otherwise edit the tab navigation.
 
-  // TODO: The new articles we create will be copy/pasted into our source data file.
+  // DONE: The new articles we create will be copy/pasted into our source data file.
   // Set up this "export" functionality. We can hide it for now, and show it once we have data to export.
 
   $('#article-json').on('focus', function(){
@@ -98,12 +98,12 @@ articleView.create = () => {
   // DONE: Clear out the #articles element, so we can put in the updated preview
   $('#articles').empty();
 
-  // TODO: Instantiate an article based on what's in the form fields:
+  // DONE: Instantiate an article based on what's in the form fields:
   article = new Article({
     title: $('#article-title').val(),
-    category: $('#article-category').val(),
-    author: $('#article-author').val(),
-    authorUrl: $('#article-author').val(),
+    category: $('#article-data-category').val(),
+    author: $('#article-data-author').val(),
+    authorUrl: $('#article-authorUrl').val(),
     publishedOn: $('#article-published').val(),
     body: $('#article-body').val()
   });
@@ -113,15 +113,19 @@ articleView.create = () => {
   // DONE: Use our interface to the Handblebars template to put this new article into the DOM:
   $('#articles').append(article.toHtml());
 
-  // TODO: Activate the highlighting of any code blocks; look at the documentation for hljs to see how to do this by placing a callback function in the .each():
-  $('pre code').each();
+  // DONE: Activate the highlighting of any code blocks; look at the documentation for hljs to see how to do this by placing a callback function in the .each():
+  $(document).ready(function() {
+    $('pre code').each(function(i, block) {
+      hljs.highlightBlock(block);
+    });
+  });
 
   // DONE: Show our export field, and export the new article as JSON, so it's ready to copy/paste into blogArticles.js:
   $('#article-json').val(JSON.stringify(article));
 };
 
-// COMMENT: Where is this function called? Why?
-// PUT YOUR RESPONSE HERE
+// DONE: Where is this function called? Why?
+// It's called at the bottom of the index.html page so that the DOM and other scripts can load before it, because this function relies on them so that it can populate the page properly.
 articleView.initIndexPage = () => {
   articles.forEach(article => $('#articles').append(article.toHtml()));
   articleView.populateFilters();
